@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Generator : MonoBehaviour
@@ -80,6 +82,28 @@ public class Generator : MonoBehaviour
         generateMap();
     }
 
+    public void CustomMap()
+    {
+        TextMeshProUGUI customWidth = GameObject.Find("WidthText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI customHeight = GameObject.Find("HeightText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI customNBombs = GameObject.Find("BombsText").GetComponent<TextMeshProUGUI>();
+        int.TryParse(customWidth.text, out int widthVal);
+        int.TryParse(customHeight.text, out int heightVal);
+        int.TryParse(customNBombs.text, out int bombsVal);
+        setWidth(widthVal);
+        setHeight(heightVal);
+        setNBombs(bombsVal);
+        
+
+        retry = 4;
+
+        
+        canvas.gameObject.SetActive(false);
+        generateMap();
+        
+        
+    }
+
     public void generateMap()
     {
         ButtonsBehaviour.Instance.ButtonsStart();
@@ -107,8 +131,8 @@ public class Generator : MonoBehaviour
         //Situamos las bombas aleatoriamente
         for (int i = 0; i < nBombs; i++)
         {
-            x = Random.Range(0, width);
-            y = Random.Range(0, height);
+            x = UnityEngine.Random.Range(0, width);
+            y = UnityEngine.Random.Range(0, height);
             if (!map[x][y].GetComponent<Celda>().isBomb())
             {
                 map[x][y].GetComponent<Celda>().setBomb(true);

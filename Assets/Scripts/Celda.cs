@@ -54,13 +54,15 @@ public class Celda : MonoBehaviour
     {
         if (Generator.Instance.isWinner())
         {
+
             if (this.bomb)
             {
                 GetComponent<SpriteRenderer>().material.color = Color.red;
                 bombImage.gameObject.SetActive(true);
                 Debug.Log("Has perdido");
                 Generator.Instance.setWinner(false);
-                ButtonsBehaviour.Instance.ButtonsFinished();
+                ButtonsBehaviour.Instance.felicitacion.gameObject.SetActive(false);
+                GameObject.Find("CanvasEnd").SetActive(true);
             }
             else
             {
@@ -69,6 +71,8 @@ public class Celda : MonoBehaviour
                 if ((Generator.Instance.getWidth() * Generator.Instance.getHeight()) - Generator.Instance.getNBombs() == Generator.Instance.getNTest())
                 {
                     Debug.Log("Has ganado el juego");
+                    ButtonsBehaviour.Instance.felicitacion.gameObject.SetActive(true);
+                    GameObject.Find("CanvasEnd").SetActive(true);
                 }
             }
         }

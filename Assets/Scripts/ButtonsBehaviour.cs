@@ -1,20 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ButtonsBehaviour : MonoBehaviour
 {
     public static ButtonsBehaviour Instance;
-    public Button salir, reintentar, salirJuego;
+    public Button salir, reintentar, salirJuego2, salirJuego1, comenzarJuego;
+    [SerializeField] Canvas canvas1, canvas2;
+    public TextMeshProUGUI felicitacion;
     // Start is called before the first frame update
     void Start()
     {
+        canvas2.gameObject.SetActive(false);
         Instance = this;
-
-        salir.gameObject.SetActive(false);
-        reintentar.gameObject.SetActive(false);
-        salirJuego.gameObject.SetActive(false);
 
         reintentar.onClick.AddListener(() =>
         {
@@ -30,6 +30,7 @@ public class ButtonsBehaviour : MonoBehaviour
                 case 3:
                     Generator.Instance.HardMap(); 
                     break;
+                case 4:
                 default:
                     Debug.Log("No se ha seleccionado correctamente el mapa");
                     break;
@@ -41,7 +42,13 @@ public class ButtonsBehaviour : MonoBehaviour
             EliminarCasillas();
             Generator.Instance.canvas.gameObject.SetActive(true);
         });
-        salirJuego.onClick.AddListener(() => Application.Quit());
+        comenzarJuego.onClick.AddListener(() =>
+        {
+            canvas1.gameObject.SetActive(false);
+            canvas2.gameObject.SetActive(true);
+        });
+        salirJuego1.onClick.AddListener(() => Application.Quit());
+        salirJuego2.onClick.AddListener(() => Application.Quit());
         
     }
 
@@ -59,6 +66,7 @@ public class ButtonsBehaviour : MonoBehaviour
             Destroy(casilla);
         }
         Generator.Instance.setWinner(true);
+        GameObject.Find("CanvasEnd").SetActive(false);
 
     }
 
@@ -66,13 +74,8 @@ public class ButtonsBehaviour : MonoBehaviour
     {
         salir.gameObject.SetActive(false);
         reintentar.gameObject.SetActive(false);
-        salirJuego.gameObject.SetActive(false);
+        salirJuego2.gameObject.SetActive(false);
     }
 
-    public void ButtonsFinished()
-    {
-        salir.gameObject.SetActive(true);
-        reintentar.gameObject.SetActive(true);
-        salirJuego.gameObject.SetActive(true);
-    }
+    
 }
