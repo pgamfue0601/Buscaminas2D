@@ -10,15 +10,18 @@ public class ButtonsBehaviour : MonoBehaviour
     public Button salir, reintentar, salirJuego2, salirJuego1, comenzarJuego;
     [SerializeField] Canvas canvas1, canvas2;
     public TextMeshProUGUI felicitacion;
+    public Canvas finishedCanvas;
     // Start is called before the first frame update
     void Start()
     {
         canvas2.gameObject.SetActive(false);
+        finishedCanvas.gameObject.SetActive(false);
         Instance = this;
 
         reintentar.onClick.AddListener(() =>
         {
             EliminarCasillas();
+            Generator.Instance.resetTest();
             switch (Generator.Instance.retry)
             {
                 case 1:
@@ -31,6 +34,8 @@ public class ButtonsBehaviour : MonoBehaviour
                     Generator.Instance.HardMap(); 
                     break;
                 case 4:
+                    Generator.Instance.CustomMap();
+                    break;
                 default:
                     Debug.Log("No se ha seleccionado correctamente el mapa");
                     break;
@@ -40,6 +45,8 @@ public class ButtonsBehaviour : MonoBehaviour
         salir.onClick.AddListener(() =>
         {
             EliminarCasillas();
+            Generator.Instance.resetTest();
+            Generator.Instance.widthVal = 0;
             Generator.Instance.canvas.gameObject.SetActive(true);
         });
         comenzarJuego.onClick.AddListener(() =>

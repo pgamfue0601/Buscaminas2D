@@ -61,8 +61,9 @@ public class Celda : MonoBehaviour
                 bombImage.gameObject.SetActive(true);
                 Debug.Log("Has perdido");
                 Generator.Instance.setWinner(false);
+                ButtonsBehaviour.Instance.finishedCanvas.gameObject.SetActiveRecursively(true);
                 ButtonsBehaviour.Instance.felicitacion.gameObject.SetActive(false);
-                GameObject.Find("CanvasEnd").SetActive(true);
+                
             }
             else
             {
@@ -71,8 +72,9 @@ public class Celda : MonoBehaviour
                 if ((Generator.Instance.getWidth() * Generator.Instance.getHeight()) - Generator.Instance.getNBombs() == Generator.Instance.getNTest())
                 {
                     Debug.Log("Has ganado el juego");
+                    ButtonsBehaviour.Instance.finishedCanvas.gameObject.SetActiveRecursively(true);
                     ButtonsBehaviour.Instance.felicitacion.gameObject.SetActive(true);
-                    GameObject.Find("CanvasEnd").SetActive(true);
+                    
                 }
             }
         }
