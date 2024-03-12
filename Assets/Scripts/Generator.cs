@@ -11,18 +11,23 @@ public class Generator : MonoBehaviour
     [SerializeField] private GameObject celda;
     [SerializeField] private int width, height;
     [SerializeField] private int nBombs;
-    public Canvas canvas;
+    public Canvas canvas, customCanvas;
 
     private GameObject[][] map;
     public int retry = 0;
 
     private int nTest = 0;
     private bool winner = true;
-    private int x, y;
+    private int x, y, heightVal, bombsVal;
+    public int widthVal;
+    private TMP_InputField customWidth, customHeight, customNBombs;
+
     // Start is called before the first frame update
     void Start()
     {
-        Instance = this;        
+        Instance = this;
+        widthVal = 0;
+        
     }
 
     public int getWidth()
@@ -43,7 +48,10 @@ public class Generator : MonoBehaviour
     {
         nTest++;
     }
-
+    public void resetTest()
+    {
+        nTest = 0;
+    }
     public int getNTest() { return nTest; }
     public int getNBombs() { return nBombs; }
     public void setNBombs(int nBombs) { this.nBombs = nBombs; }
@@ -84,12 +92,17 @@ public class Generator : MonoBehaviour
 
     public void CustomMap()
     {
-        TextMeshProUGUI customWidth = GameObject.Find("WidthText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI customHeight = GameObject.Find("HeightText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI customNBombs = GameObject.Find("BombsText").GetComponent<TextMeshProUGUI>();
-        int.TryParse(customWidth.text, out int widthVal);
-        int.TryParse(customHeight.text, out int heightVal);
-        int.TryParse(customNBombs.text, out int bombsVal);
+        if (widthVal == 0)
+        {
+            customWidth = GameObject.Find("InputWidth").GetComponent<TMP_InputField>();
+            customHeight = GameObject.Find("InputHeight").GetComponent<TMP_InputField>();
+            customNBombs = GameObject.Find("InputBombs").GetComponent<TMP_InputField>();
+
+            int.TryParse(customWidth.text, out widthVal);
+            int.TryParse(customHeight.text, out heightVal);
+            int.TryParse(customNBombs.text, out bombsVal);
+        }
+
         setWidth(widthVal);
         setHeight(heightVal);
         setNBombs(bombsVal);
@@ -97,11 +110,9 @@ public class Generator : MonoBehaviour
 
         retry = 4;
 
-        
+        customCanvas.gameObject.SetActive(false);
         canvas.gameObject.SetActive(false);
         generateMap();
-        
-        
     }
 
     public void generateMap()
